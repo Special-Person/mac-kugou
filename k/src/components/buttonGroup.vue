@@ -72,10 +72,10 @@
         </a>
         <a ondragstart="return false" href="#" class="voice" @click="currentMusicVolume = !currentMusicVolume">
             <i class="iconfont" :class="currentMusicVolume ? 'icon-shengyin' : 'icon-jingyin'"></i>
-            <div class="voice-control">
+            <div class="voice-control" @click.stop="">
                 <div class="vc">
-                    <div class="pro" ref="volume" id="voicePro" style="height: 100px"></div>
-                    <div class="bg"></div>
+                    <div class="pro" @click="jumpVolume($event)" ref="volume" id="voicePro" style="height: 100px"></div>
+                    <div class="bg" @click="jumpVolume($event)"></div>
                     <div class="dot" ref="voice" id="voiceDot" style="bottom: 95px;"></div>
                 </div>
             </div>
@@ -187,8 +187,23 @@ export default {
                 musicList: '我喜欢'
             })
 
-        },
+            setTimeout(() => {
+                this.$router.push({
+                    path: '/kong',
+                    query: this.$router.query,
+                    replace: true
+                })
+            },200)
 
+        },
+        jumpVolume(e){
+            let dom = document.getElementsByClassName('bg')[1]
+            var voice = this.$refs.voice; // dot
+            var volume = this.$refs.volume; // pro
+            music.volume = (100 - (e.clientY - this.getElementTop(dom, "Top")) ) / 100
+            voice.style.bottom = 95 - (e.clientY - this.getElementTop(dom, "Top")) + 'px'
+            volume.style.height = 100 - (e.clientY - this.getElementTop(dom, "Top"))  + 'px'
+        },
         getElementTop(elem, direction) {
             var elemTop = elem["offset" + direction]; //获得elem元素距相对定位的父元素的top
             elem = elem.offsetParent; //将elem换成起相对定位的父元素
@@ -231,20 +246,6 @@ export default {
                 music.volume = 0;
                 voice.style.bottom = "-5px";
                 volume.style.height = "0px";
-            }
-        },
-        islike(newVal){
-            if(newVal){
-                let currentSongInfo = store.state.currentSongInfo
-                let item = {
-                    ...this.currentSongInfo,
-                    song_name: currentSongInfo.song_name,
-                    author_name: currentSongInfo.author_name,
-                    album_name: currentSongInfo.album_name,
-                    timelength: currentSongInfo.timelength,
-                    hash: currentSongInfo.hash
-                }
-                store.commit('addLike', {item, musicList: '我喜欢'})
             }
         },
     }
@@ -420,6 +421,7 @@ export default {
 .btns a.voice {
     position: relative;
     display: inline-block;
+    cursor: pointer;
 }
 .btns a.voice .voice-control {
     position: absolute;
@@ -435,6 +437,7 @@ export default {
     border: 1px solid #e4e4e4;
     border-radius: 4px;
     transform: scale(0);
+    cursor: default;
 }
 .btns a.voice .voice-control:before {
     content: "";
@@ -462,6 +465,7 @@ export default {
     width: 3px;
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 2px;
+    cursor: pointer;
 }
 .btns a.voice .pro {
     position: absolute;
@@ -470,6 +474,7 @@ export default {
     border-radius: 2px;
     z-index: 1;
     background-color: #5691eb;
+    cursor: pointer;
 }
 .btns a.voice .dot {
     position: absolute;

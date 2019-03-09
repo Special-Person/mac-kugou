@@ -12,7 +12,7 @@
                 <span>{{comPlayCount(item.playcount)}}</span>
             </div>
             <div class="player">
-                <a href="#"><i class="iconfont icon-xin1"></i></a>
+                <a href="#" @click.stop="collection"><i class="iconfont icon-xin1" :class="{red : isCol}"></i></a>
                 <a href="#" @click.stop="allPlayerMusic"><i class="iconfont icon-bofang3"></i></a>
             </div>
         </router-link>
@@ -74,7 +74,8 @@ export default {
             page: 1 ,
             playerList: [],
             list: [],
-            info: []
+            info: [],
+            isCol: false
         }
     },
     methods: {
@@ -98,6 +99,34 @@ export default {
             this.$store.commit('searchMusic')
 
             this.$store.commit('pushHistoryMusic')
+        },
+        collection() {
+            let collectingSongs = this.$store.state.collectingSongs
+            let songsheet = {
+                id: +this.item.specialid,
+                txt: this.item.specialname,
+                icon: 'ziyuan',
+                action: '/allsongsheet?' + +this.item.specialid
+            }
+            let flag = true
+            // flag = true ？ 没有收藏 ； 收藏了
+            for (let i = 0; i < collectingSongs.length; i++) {
+
+                if (collectingSongs[i].id === songsheet.id) {
+                    this.$store.state.collectingSongs.splice(i, 1)
+                    flag = false
+                    this.isCol = false
+                } else {
+                    flag = true
+
+                }
+            }
+
+            if (flag) {
+                this.$store.state.collectingSongs.unshift(songsheet)
+                flag = false
+                this.isCol = true
+            }
         }
     },
     created(){
@@ -125,6 +154,26 @@ export default {
                 // console.log(JSON.parse(JSON.stringify(this.item)))
             })
         
+    },
+    computed: {
+        collectingSongs(){
+            return this.$store.state.collectingSongs
+        }
+    },
+    watch: {
+        // collectingSongs(newVal){
+        //     for (let i = 0; i < newVal.length; i++) {
+        //     // console.log(newVal[i].id, this.item.specialid)
+        //         if (newVal[i].id === this.item.specialid) {
+        //             this.isCol = false
+        //         } else {
+        //             this.isCol = true
+        //         }
+        //     }
+        // },
+        // isCol(newVal){
+        //     console.log(newVal)
+        // }
     }
 }
 </script>
@@ -198,10 +247,13 @@ export default {
     display: block;
     color: #efefef;
 }
+.img .player a i.red{
+    color: red;
+}
 .img .player a:hover {
     border-color: #fff;
 }
-.img .player a:hover i {
+.img .player a:hover i:not(.red) {
     color: #fff;
 }
 

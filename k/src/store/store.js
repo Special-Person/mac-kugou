@@ -105,7 +105,6 @@ let mutations = {
     searchMusic(state) {
 
         let item = state.playerList[state.currentPlayerIndex]
-        
         Vue.prototype.axios.get('player/yy/index.php?r=play/getdata&hash=' + item.hash)
             .then(res => {
                 // 歌曲src 赋值成功直接会播放
@@ -114,6 +113,7 @@ let mutations = {
                 state.currentSongInfo = res.data.data
 
             })
+        
     },
 
     timeCompare(state) {
@@ -285,6 +285,14 @@ let mutations = {
 
         for(let i = 0; i < localList.length; i++){
             if(localList[i].hash === item.hash){
+                // 删除 重复的
+                localList = localList.filter(list => list.hash !== item.hash)
+
+                // 同步底部爱心
+                if (musicList === '我喜欢' && state.currentSongInfo.hash === item.hash) {
+                    state.islike = false
+                }
+                localStorage.setItem(musicList, JSON.stringify(localList))
                 flag = false
                 break;
             }else{
@@ -307,17 +315,7 @@ let mutations = {
             if (musicList === '我喜欢' && state.currentSongInfo.hash === item.hash) {
                 state.islike = true
             }
-        }else{
-
-            // 删除 重复的
-            localList = localList.filter(list => list.hash !== item.hash)
-
-            // 同步底部爱心
-            if (musicList === '我喜欢' && state.currentSongInfo.hash === item.hash) {
-                state.islike = false
-            }
-            localStorage.setItem(musicList, JSON.stringify(localList))
-
+            flag = false
         }
 
 

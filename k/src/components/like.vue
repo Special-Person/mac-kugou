@@ -55,15 +55,15 @@ export default {
                 for(let i = 0; i < localList.length; i++){
                     if(localList[i].hash === l.hash){
                         flag = true
+                        this.islike = true
                         break;
                     }else{
                         flag = false
                     }
                 }
 
-                if(flag){
-                    this.islike = true
-                }else{
+                if(!flag){
+                    
                     this.islike = false;
                 }
 

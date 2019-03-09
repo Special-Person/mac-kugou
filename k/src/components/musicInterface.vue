@@ -67,11 +67,11 @@ export default {
             // 如果有当前播放的音乐信息 则把歌词做处理
             if (typeof this.$store.state.currentSongInfo.img !== "undefined") {
                 let lyc = this.$store.state.currentSongInfo.lyrics;
-                var arr = lyc.split("[");
+                var arr = new String(lyc).split("[");
                 arr.shift();
                 arr.forEach((ele, index) => {
-                    time.push(ele.split("]")[0]);
-                    lyric.push(ele.split("]")[1]);
+                    time.push(new String(ele).split("]")[0]);
+                    lyric.push(new String(ele).split("]")[1]);
                 });
             }
             this.$store.state.lyricTime = time;
@@ -140,7 +140,7 @@ export default {
             // 从数组取出当前时间
             var currentTime = state.lyricTime[state.lyricIndex]
             // '01:12.15'
-            var arr = currentTime.split(':')
+            var arr = new String(currentTime).split(':')
             // ['01','12.15']
             var min = 0
 
@@ -161,8 +161,8 @@ export default {
                 return 5
             }
 
-            var arr = lyricTime[index].split(':')
-            var arr1 = lyricTime[index + 1].split(':')
+            var arr = new String(lyricTime[index]).split(':')
+            var arr1 = new String(lyricTime[index + 1]).split(':')
 
             // ['01','12.15']
             var min = 0

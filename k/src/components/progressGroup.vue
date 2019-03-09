@@ -34,8 +34,8 @@
                 </div>
             </div>
             <div class="progress">
-                <div class="pro" id="pro" style="width: 0%"></div>
-                <div class="bg"></div>
+                <div class="pro" @click="JumpMusic($event)" id="pro" style="width: 0%"></div>
+                <div class="bg" @click="JumpMusic($event)"></div>
                 <div class="dot" id="dot" style="left: 0%"></div>
             </div>
         </div>
@@ -63,6 +63,10 @@ export default {
             this.toneQuality = false;
             // 截取音质字符串前两位赋值
             this.quality = e.target.innerText.substr(0, 2);
+        },
+        JumpMusic(e){
+            let dom = document.getElementsByClassName('bg')[0]
+            music.currentTime = (e.clientX - this.getElementTop(dom,'Left') - 1) / 400 * music.duration
         },
         comTime(time) {
             let min, second;
@@ -293,6 +297,7 @@ export default {
     width: calc(100% + 5px);
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 2px;
+    cursor: pointer;
 }
 .progress .pro {
     position: absolute;
@@ -301,6 +306,7 @@ export default {
     border-radius: 2px;
     z-index: 1;
     background-color: #fff;
+    cursor: pointer;
 }
 .progress .dot {
     position: absolute;

@@ -33,7 +33,6 @@ export default {
             return new String(src).replace(/{size}/g, 200)
         },
         playerMusic(){
-            console.log(JSON.parse(JSON.stringify(this.item)))
             // 根据关键词搜索 音乐 赋值到table里
             this.axios.get('/search/api/v3/search/song?format=json&keyword=' + this.item.singername + '&page=0')
                 .then(res => {

@@ -1,6 +1,6 @@
 <template>
-    <div>
-        暂未获取api，待续...
+    <div class="header">
+        暂未获取接口，待续...
     </div>
 </template>
 
@@ -10,6 +10,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.header{
+    padding: 25px 40px 0;
+}
 </style>

@@ -20,7 +20,8 @@
                         <a ondragstart="return false" href="#" @click="playerMusic($event, index)" @dblclick.stop="" class="player">
                             <i class="iconfont icon-bofang2"></i>
                         </a>
-                        <like :isLike="comLike(item)" :item="item" />
+                        <!-- 我喜欢 -->
+                        <like @dblclick.stop="" :isLike="comLike(item)" :item="item" />
                         <a ondragstart="return false" href="#" class="download" @dblclick.stop="">
                             <i class="iconfont icon-xiazai1"></i>
                         </a>
@@ -81,12 +82,9 @@ export default {
         }
     },
     computed: {
-
         comLike() {
             return (item) => {
-
                 let like = JSON.parse(localStorage.getItem('我喜欢')) || []
-
                 for(let i = 0; i < like.length; i++){
                     if(like[i].hash === item.hash){
                         return true;
@@ -95,7 +93,7 @@ export default {
 
                 return false
             }
-        },
+        }
     },
     data() {
         return {
@@ -125,13 +123,25 @@ export default {
                 this.showMenu = true
 
                 var menu = document.getElementsByClassName('mouseM')[0]
+                var limit = document.getElementsByClassName('limit')[0]
 
                 this.musicIndex = index
-                console.log(e)
-                menu.style.left = e.clientX - 25 + 'px'
-                menu.style.top = e.clientY - 25 + 'px'
+                menu.style.left = e.clientX - this.getElementTop(limit, 'Left') + 'px'
+                menu.style.top = e.clientY - this.getElementTop(limit, 'Top') + 'px'
                 // console.log('关键词高亮还没弄')
             }
+        },
+
+        getElementTop(elem, direction) {
+            var elemTop = elem["offset" + direction]; //获得elem元素距相对定位的父元素的top
+            elem = elem.offsetParent; //将elem换成起相对定位的父元素
+            while (elem != null) {
+                //只要还有相对定位的父元素
+                //获得父元素 距他父元素的top值,累加到结果中
+                elemTop += elem["offset" + direction]; //再次将elem换成他相对定位的父元素上;
+                elem = elem.offsetParent;
+            }
+            return elemTop;
         },
         // 播放并加入历史记录
         playerMusic(e, index) {
@@ -144,7 +154,6 @@ export default {
             store.commit('pushHistoryMusic')
 
 
-
             // tr背景处理
             setTimeout(() => {
                 this.musicListActive = null
@@ -152,6 +161,7 @@ export default {
                     this.musicListActive = null
                 }
             }, 800)
+
         },
         comTime(time) {
             let min, second;
@@ -344,7 +354,7 @@ table td p span.label {
 .mouseMenu .menu a div {
     display: none;
     position: absolute;
-    left: 95px;
+    left: 93px;
     top: 0;
     width: 95px;
     color: #333;

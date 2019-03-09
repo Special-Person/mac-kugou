@@ -119,7 +119,7 @@ export default {
     methods: {
 
         comSongName(name, index){
-            return name.split(' - ')[index]
+            return new String(name).split(' - ')[index]
         },
         // 播放列表
         playMusic(item, index) {

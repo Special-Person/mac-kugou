@@ -52,7 +52,7 @@
                 </li>
                 <li class="addList" v-show="showInput">
                     <i class="iconfont icon-ziyuan"></i>
-                    <input type="text" ref="addInput" @focus="clearHotKey($event)" @blur="addHotKey" :value="'我的歌单' + addList" style="width: 100px; vertical-align: middle;">
+                    <input type="text" ref="addInput" @focus="clearHotKey($event)" @blur="saveCol" :value="'我的歌单' + addList" style="width: 100px; vertical-align: middle;">
                 </li>
             </ul>
         </div>
@@ -74,11 +74,25 @@
         </div>
         <div class="layer mouseMenu" v-show="showMenu" @click="showMenu = false">
             <div class="mMenu mouse">
-                <a href="#" @click="playMusic">播放歌单</a>
-                <a href="#">下一首播放</a>
-                <a href="#" :class="menuType === 1 ? 'show' : 'hide'">重命名</a>
-                <a href="#" :class="menuType === 0 ? 'hide' : 'show'">删除歌单</a>
-                <a href="#">分享</a>
+                <a ondragstart="return false" href="#" @click="playMusic">播放歌单</a>
+                <a ondragstart="return false" href="#">下一首播放</a>
+                <a ondragstart="return false" href="#" :class="menuType === 1 ? 'show' : 'hide'" @click="rename">重命名</a>
+                <a ondragstart="return false" href="#" :class="menuType === 0 ? 'hide' : 'show'" @click="deleteCol">删除歌单</a>
+                <a ondragstart="return false" href="#">分享</a>
+            </div>
+        </div>
+        <!-- showRepeatName && menuType == 1 -->
+        <div class="layer" v-show="showRepeatName" @click="showRepeatName = false">
+            <div class="repeat-name" @click.stop="">
+                <p><a ondragstart="return false" href="#" @click.stop="showRepeatName = false"><i class="iconfont icon-cha"></i></a><span>重命名</span></p>
+                <div class="content">
+                    <p class="header">标题:</p>
+                    <input type="text" placeholder="请输入新的歌单名" @focus="clearHotKey($event)" @blur="addHotKey">
+                    <p class="btn">
+                        <a ondragstart="return false" href="#">取消</a>
+                        <a ondragstart="return false" href="#">确定</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -107,7 +121,8 @@ export default {
             showMenu: false, // 更多操作菜单
             menuType: 0, // 三种菜单类型 类似根据权限显示菜单
             musicIndex: null,
-            item: null
+            item: null,
+            showRepeatName: false
         }
     },
     methods: {
@@ -137,6 +152,9 @@ export default {
                 document.onkeydown = null
             }
 
+        },
+        saveCol(){
+            this.addHotKey()
             // 把输入好的歌单保存
             let value = this.$refs.addInput.value
             let flag = true
@@ -201,8 +219,10 @@ export default {
                 this.item = item
 
                 var menu = document.getElementsByClassName('mouse')[0]
-                menu.style.left = e.clientX - 25 + 'px'
-                menu.style.top = e.clientY - 25 + 'px'
+                var limit = document.getElementsByClassName('limit')[0]
+
+                menu.style.left = e.clientX - this.getElementTop(limit, 'Left') + 'px'
+                menu.style.top = e.clientY - this.getElementTop(limit, 'Top') + 'px'
 
             }
         },
@@ -217,7 +237,37 @@ export default {
                 // 收藏歌单
                 this.requstSongsheet(this.item.id)
             }
-            // console.log(this.item, this.musicIndex)
+        },
+        // 删除歌单
+        deleteCol(){
+            if(confirm('此操作不可逆，是否继续？')){
+
+                if(this.menuType === 1){
+                    localStorage.removeItem(this.item)
+                    let arr = JSON.parse(localStorage.getItem('myLikeMusic')) || []
+                    this.$store.state.myLikeMusic = arr.filter((item) => item.txt !== this.item)
+                }
+                if(this.menuType === 2){
+                    let arr = JSON.parse(localStorage.getItem('collectingSongs')) || []
+                    this.$store.state.collectingSongs = arr.filter((item) => item.txt !== this.item.txt)
+                }
+            }
+        },
+        // 重命名
+        rename(){
+            this.showRepeatName = true
+            console.log(this.item)
+        },
+        getElementTop(elem, direction) {
+            var elemTop = elem["offset" + direction]; //获得elem元素距相对定位的父元素的top
+            elem = elem.offsetParent; //将elem换成起相对定位的父元素
+            while (elem != null) {
+                //只要还有相对定位的父元素
+                //获得父元素 距他父元素的top值,累加到结果中
+                elemTop += elem["offset" + direction]; //再次将elem换成他相对定位的父元素上;
+                elem = elem.offsetParent;
+            }
+            return elemTop;
         },
         requstSongsheet(id) {
             let arr = []
@@ -344,7 +394,7 @@ export default {
     width: 1000px;
     z-index: 11;
 }
-.mouseMenu .mMenu {
+.mouseMenu .mMenu{
     position: absolute;
     z-index: 11;
     top: 0;
@@ -376,6 +426,72 @@ export default {
 }
 .mouseMenu .mMenu a.show{
     display: block
+}
+
+.repeat-name{
+    position: absolute;
+    z-index: 11;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 340px;
+    height: 225px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #e4e4e4;
+    border-radius: 4px;
+    box-shadow: 0 0 10px #ccc;
+    box-sizing: border-box;
+    padding: 5px 0;
+}
+.repeat-name > p{
+    position: relative;
+    text-align: center;
+}
+.repeat-name > p a{
+    position: absolute;
+    left: 10px;
+    color: #666;
+}
+.repeat-name .content{
+    padding: 30px 40px;
+}
+.repeat-name .content input{
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    margin: 10px 0 30px;
+}
+.repeat-name .content input::-webkit-input-placeholder{
+    color: #999;
+}
+.repeat-name .content .btn{
+    text-align: center;
+}
+.repeat-name .content .btn a{
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+.repeat-name .content .btn a:first-child{
+    border: 1px solid #e4e4e4;
+    color: #666;
+}
+.repeat-name .content .btn a:first-child:hover{
+    border-color: #5aa0f8;
+    color: #5aa0f8;
+}
+.repeat-name .content .btn a:last-child{
+    border: 1px solid #5aa0f8;
+    background-color: #5aa0f8;
+    color: #fff;
 }
 
 .router-link-exact-active.router-link-active{
