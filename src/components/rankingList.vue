@@ -142,7 +142,7 @@ export default {
 <style scoped>
 .rank{
     padding: 18px 40px 0;
-    height: 585px;
+    height: 590px;
     overflow: hidden;
     box-sizing: border-box;
     overflow-y: scroll;

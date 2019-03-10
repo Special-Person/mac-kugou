@@ -182,7 +182,7 @@ export default {
     right: 0px;
     bottom: 60px;
     width: 355px;
-    height: 588px;
+    height: 590px;
     box-sizing: border-box;
     background-color: #fff;
     transform-origin: bottom;
@@ -197,7 +197,7 @@ export default {
     display: block;
 }
 .music-list.h {
-    height: calc(588px + 45px);
+    height: calc(590px + 45px);
 }
 .music-list .tabs {
     height: 40px;

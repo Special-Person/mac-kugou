@@ -126,13 +126,13 @@ body {
 .limit {
     position: relative;
     width: 1000px;
-    height: 690px;
+    height: 695px;
     border-radius: 10px;
     overflow: hidden;
 }
 .my-right {
     float: left;
-    height: 585px;
+    height: 590px;
     width: 810px;
     box-sizing: border-box;
     overflow-x: hidden;

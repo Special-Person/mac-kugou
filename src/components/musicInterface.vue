@@ -187,7 +187,7 @@ export default {
                 ...store.state.currentSongInfo
             }
             // 如果在hash表里找不到则添加进去，找到了则取消
-            store.commit('addLike', {item, musicList: '我喜欢'})
+            store.commit('toggleLike', {item, musicList: '我喜欢'})
             
         }
     },
@@ -222,7 +222,7 @@ export default {
     position: relative;
     z-index: 8;
     width: 1000px;
-    height: 633px;
+    height: 635px;
     padding: 70px 100px 70px 170px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -346,7 +346,7 @@ export default {
 .time li.active span:first-child {
     animation-name: loop;
     animation-fill-mode: forwards;
-    animation-timing-function: cubic-bezier(0.46, 0.3, 0.99, 0.16);
+    animation-timing-function: cubic-bezier(0.3, 0.2, 0.88,  1);
 }
 @keyframes loop {
     0% {
@@ -459,7 +459,7 @@ export default {
     top: 0;
     left: 0;
     width: 1000px;
-    height: 633px;
+    height: 635px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     overflow: hidden;

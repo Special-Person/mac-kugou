@@ -12,7 +12,18 @@
             <span>{{ i + 1 }}</span>
             <a href="#" @click.stop="playerMusic"><i class="iconfont icon-bofang1"></i></a>
         </router-link>
-        <p>{{item.singername}}</p>
+        <p>
+            <router-link :to="{
+                path: '/singermusicsheet',
+                query: {
+                    singername: item.singername,
+                    id: item.singerid,
+                    img: item.imgurl
+                }
+            }">
+                {{item.singername}}
+            </router-link>
+        </p>
     </div>
 </template>
 
@@ -92,5 +103,14 @@ a a:hover i{
 }
 .item > a:hover span{
     display: none;
+}
+p{
+    margin: 5px 0 10px;
+}
+p a{
+    color: #333;
+}
+p a:hover{
+    color: #5691eb;
 }
 </style>

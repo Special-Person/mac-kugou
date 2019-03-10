@@ -21,7 +21,8 @@ export default {
 
 <style scoped>
 .header{
-    height: 77px;
+    height: 103px;
+    box-sizing: border-box;
     padding: 25px 40px 0;
     border-bottom: 1px solid transparent;
 }

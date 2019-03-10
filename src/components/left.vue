@@ -31,7 +31,7 @@
             </p>
             <ul :class="showList ? 'hide' : 'show'">
                 <!-- 右键有 播放歌单 下一首播放 分享 -->
-                <li v-for="(item, index) in songList" @mousedown="ShowMenu($event, item.txt, index, 0)" :key="index">
+                <li v-for="(item, index) in songList" @mousedown="ShowMenu($event, item.txt, index, 0, 'songList')" :key="index">
                     <router-link ondragstart="return false" :to="{
                         path: item.action,
                         query: item.query || ''
@@ -41,7 +41,7 @@
                     </router-link>
                 </li>
                 <!-- 右键有 播放歌单 下一首播放 重命名 删除歌单 分享 -->
-                <li v-for="(item, i) in myLikeMusic" @mousedown="ShowMenu($event, item.txt, i, 1)" :key="i.a">
+                <li v-for="(item, i) in myLikeMusic" @mousedown="ShowMenu($event, item.txt, i, 1, 'colLikeMusic')" :key="i.a">
                     <router-link ondragstart="return false" :to="{
                         path: item.action,
                         query: item.query || ''
@@ -52,7 +52,7 @@
                 </li>
                 <li class="addList" v-show="showInput">
                     <i class="iconfont icon-ziyuan"></i>
-                    <input type="text" ref="addInput" @focus="clearHotKey($event)" @blur="saveCol" :value="'我的歌单' + addList" style="width: 100px; vertical-align: middle;">
+                    <input type="text" ref="addInput" @focus="clearHotKey($event)" @blur="saveCol" @keydown.13="$event.target.blur" :value="'我的歌单' + addList" style="width: 100px; vertical-align: middle;">
                 </li>
             </ul>
         </div>
@@ -64,7 +64,7 @@
             </p>
             <ul :class="showCollecting ? 'hide' : 'show'">
                 <!-- 右键有 播放歌单 下一首播放 删除歌单 分享 -->
-                <li v-for="(item, index) in collectingSongs" :key="index" @mousedown="ShowMenu($event, item, index, 2)">
+                <li v-for="(item, index) in collectingSongs" :key="index" @mousedown="ShowMenu($event, item, index, 2, 'collectingSongs')">
                     <router-link ondragstart="return false" :to="comAction(item.action)" :class="{active: item.active}" @click.native="toggleActive();item.active = !item.active">
                         <i :class="'iconfont icon-' + item.icon"></i>
                         <span>{{item.txt}}</span>
@@ -76,7 +76,7 @@
             <div class="mMenu mouse">
                 <a ondragstart="return false" href="#" @click="playMusic">播放歌单</a>
                 <a ondragstart="return false" href="#">下一首播放</a>
-                <a ondragstart="return false" href="#" :class="menuType === 1 ? 'show' : 'hide'" @click="rename">重命名</a>
+                <a ondragstart="return false" href="#" :class="menuType === 1 ? 'show' : 'hide'" @click="showRename">重命名</a>
                 <a ondragstart="return false" href="#" :class="menuType === 0 ? 'hide' : 'show'" @click="deleteCol">删除歌单</a>
                 <a ondragstart="return false" href="#">分享</a>
             </div>
@@ -87,10 +87,10 @@
                 <p><a ondragstart="return false" href="#" @click.stop="showRepeatName = false"><i class="iconfont icon-cha"></i></a><span>重命名</span></p>
                 <div class="content">
                     <p class="header">标题:</p>
-                    <input type="text" placeholder="请输入新的歌单名" @focus="clearHotKey($event)" @blur="addHotKey">
+                    <input type="text" placeholder="请输入新的歌单名" ref="rename" @focus="clearHotKey($event)" @blur="addHotKey">
                     <p class="btn">
                         <a ondragstart="return false" href="#">取消</a>
-                        <a ondragstart="return false" href="#">确定</a>
+                        <a ondragstart="return false" href="#" @click="rename" >确定</a>
                     </p>
                 </div>
             </div>
@@ -122,7 +122,8 @@ export default {
             menuType: 0, // 三种菜单类型 类似根据权限显示菜单
             musicIndex: null,
             item: null,
-            showRepeatName: false
+            showRepeatName: false,
+            currentColName: ''
         }
     },
     methods: {
@@ -209,7 +210,8 @@ export default {
                 this.$refs.addInput.focus()
             },100)
         },
-        ShowMenu(e, item, index, menuType){
+        ShowMenu(e, item, index, menuType, colName){
+            this.currentColName = colName
             // 判断是否是右键按下
             if (e.button === 2) {
                 this.showMenu = true
@@ -253,10 +255,41 @@ export default {
                 }
             }
         },
+        showRename(){
+            this.$refs.rename.value = ''
+            this.showRepeatName = true
+            setTimeout(() => {
+                this.$refs.rename.focus();
+            }, 200)
+        },
         // 重命名
         rename(){
-            this.showRepeatName = true
-            console.log(this.item)
+            if(this.$refs.rename.value === ''){
+                return alert('更改的歌单名不能为空')
+            }
+
+
+            let likeMusicList = JSON.parse(JSON.stringify(this.$store.state.myLikeMusic))
+
+
+            let arr = JSON.parse(localStorage.getItem(likeMusicList[this.musicIndex].txt))
+            localStorage.removeItem(likeMusicList[this.musicIndex].txt)
+            localStorage.setItem( this.$refs.rename.value, JSON.stringify(arr) )
+
+            // 新建歌单的项
+            let likeMusic = {
+                ...likeMusicList[this.musicIndex],
+                query: {list: this.$refs.rename.value},
+                txt: this.$refs.rename.value
+            }
+
+            likeMusicList.splice(this.musicIndex, 1 , likeMusic)
+
+            this.$store.state.myLikeMusic = likeMusicList
+            
+            this.showRepeatName = false
+
+        
         },
         getElementTop(elem, direction) {
             var elemTop = elem["offset" + direction]; //获得elem元素距相对定位的父元素的top
@@ -312,7 +345,7 @@ export default {
 .menu {
     float: left;
     width: 190px;
-    height: 588px;
+    height: 590px;
     overflow-y: scroll;
     background: linear-gradient(to right, #f3f3f3, #eee);
 }

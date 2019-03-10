@@ -74,8 +74,7 @@ export default {
             page: 1 ,
             playerList: [],
             list: [],
-            info: [],
-            isCol: false
+            info: []
         }
     },
     methods: {
@@ -86,8 +85,7 @@ export default {
             return (count / 10000).toFixed(1) + '万'
         },
         playerMusic(index){
-
-            this.$store.state.currentPlayerIndex = index
+            this.$store.state.currentPlayerIndex = (this.page - 1) * 6 + index
             this.$store.state.playerList = this.playerList;
             this.$store.commit('searchMusic')
 
@@ -115,7 +113,6 @@ export default {
                 if (collectingSongs[i].id === songsheet.id) {
                     this.$store.state.collectingSongs.splice(i, 1)
                     flag = false
-                    this.isCol = false
                 } else {
                     flag = true
 
@@ -125,12 +122,11 @@ export default {
             if (flag) {
                 this.$store.state.collectingSongs.unshift(songsheet)
                 flag = false
-                this.isCol = true
             }
         }
     },
     created(){
-        this.axios.get('/musicinfo/plist/list/' + this.item.specialid + '?json=truee')
+        this.axios.get('/musicinfo/plist/list/' + this.item.specialid + '?json=true')
             .then(res => {
                 this.count = res.data.pagesize
                 let songInfo = res.data.list.list.info
@@ -151,29 +147,23 @@ export default {
                 this.list = arr // 每页的数据
                 this.playerList = res.data.list.list.info
                 this.info = res.data.info
-                // console.log(JSON.parse(JSON.stringify(this.item)))
             })
         
     },
     computed: {
         collectingSongs(){
             return this.$store.state.collectingSongs
+        },
+        isCol(){
+            let collectingSongs = this.collectingSongs
+            for (let i = 0; i < collectingSongs.length; i++) {
+                if(collectingSongs[i].id === this.item.specialid){
+                    return true
+                    break;
+                }
+            }
+            return false
         }
-    },
-    watch: {
-        // collectingSongs(newVal){
-        //     for (let i = 0; i < newVal.length; i++) {
-        //     // console.log(newVal[i].id, this.item.specialid)
-        //         if (newVal[i].id === this.item.specialid) {
-        //             this.isCol = false
-        //         } else {
-        //             this.isCol = true
-        //         }
-        //     }
-        // },
-        // isCol(newVal){
-        //     console.log(newVal)
-        // }
     }
 }
 </script>

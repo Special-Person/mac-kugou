@@ -44,7 +44,7 @@ export default {
 
                 })
             // 如果在hash表里找不到则添加进去，找到了则取消
-            store.commit('addLike', {
+            store.commit('toggleLike', {
                 item: l,
                 musicList: '我喜欢'
             })
@@ -67,7 +67,15 @@ export default {
                     this.islike = false;
                 }
 
+                if(this.$route.path === '/mylike'){
+                    this.$router.push({
+                        path: '/kong',
+                        query: this.$router.query,
+                        replace: true
+                    })
+                }
             },200)
+
             
                 
                 

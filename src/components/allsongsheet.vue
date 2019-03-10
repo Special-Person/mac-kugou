@@ -6,20 +6,20 @@
             </div>
             <div class="r">
                 <p>
-                    {{info.specialname}}
+                    {{info.specialname || '正在加载数据，请稍等...'}}
                 </p>
                 <div class="time">
                     {{new String(info.publishtime).substring(0, 10)}}
                     <span class="line"></span>
-                    {{info.nickname}}
-                    <span v-for="(item, index) in info.tags" :key="index">{{item.tagname}}</span>
+                    {{info.nickname || '正在加载数据，请稍等...'}}
+                    <span v-for="(item, index) in info.tags" :key="index" class="tag">{{item.tagname}}</span>
                 </div>
                 <div class="introduce">
-                    <p>介绍：{{info.intro}}</p>
+                    <p>介绍：{{info.intro || '正在加载数据，请稍等...'}}</p>
                     <span v-show="new String(info.intro).length > 30" @click="showDetails = !showDetails">详情</span>
                     <div class="details" v-show="showDetails">
                         <div class="scroll">
-                            <p>{{info.specialname}}</p>
+                            <p>{{info.specialname || '正在加载数据，请稍等...'}}</p>
                             <p v-for="(item, index) in new String(info.intro).split('\n')" :key="index">
                                 {{item}}
                             </p>
@@ -197,6 +197,15 @@ export default {
     line-height: 22px;
     margin: 0 10px;
     vertical-align: middle;
+}
+.r .time span.tag{
+    border: 1px solid #e4e4e4;
+    font-size: 12px;
+    padding: 2px 4px;
+    color: #666;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin: 0 2px;
 }
 .r .introduce {
     position: relative;

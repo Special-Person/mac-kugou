@@ -9,7 +9,7 @@
                 }
             }">
                 <img :src="item.img" width="168" alt="">
-                <p>{{item.specialname}}</p>
+                <p v-html="item.specialname"></p>
                 <p>{{item.nickname}}</p>
             </router-link>
         </li>

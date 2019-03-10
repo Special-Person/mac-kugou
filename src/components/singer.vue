@@ -76,7 +76,7 @@ export default {
                     this.list3.push(res.data.list[i])
                 }
             }
-            // console.log(this.list1, this.list2, this.list3)
+
         }).then(() => {
 
             this.axios.get('/musicinfo/singer/list/' + this.list[0].classid + '?json=true&')
@@ -100,7 +100,7 @@ export default {
 <style scoped>
 .singer{
     padding: 18px 40px 0;
-    height: 585px;
+    height: 590px;
     overflow: hidden;
     box-sizing: border-box;
     overflow-y: scroll;

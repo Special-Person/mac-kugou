@@ -94,7 +94,7 @@ export default {
 
 <style scoped>
 .songsheet{
-    height: 588px;
+    height: 590px;
     overflow-y: scroll;
 }
 .header{

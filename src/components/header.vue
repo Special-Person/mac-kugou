@@ -15,7 +15,7 @@
         <div class="search">
             <input type="text" class="user-search" @focus="clearHotKey($event)" @blur="addHotKey" @input="searchMusic($event)" @keyup.13="jump($event)" @click="showMusicList($event)" ref="search" placeholder="搜索">
             <div class="search-info" v-show="searchInfo">
-                <div class="column" v-for="(item, index) in musicList" :key="index">
+                <div class="column" v-for="(item, index) in musicList" :key="index" v-show="item.RecordCount !== 0">
                     <p v-if="item.LableName">{{item.LableName}}</p>
                     <ul>
                         <li v-for="(list, i) in item.RecordDatas" :key="i">
@@ -73,6 +73,11 @@ export default {
     data() {
         return {
             searchInfo: false, // 搜索框有内容则弹出列表
+            showSinger: true,
+            showMv: true,
+            showSinger: true,
+            showAlbum: true,
+
             musicList: [], // 搜索出来的信息
             userInfo: false // 是否弹出个人账户
         }
@@ -178,6 +183,7 @@ export default {
 .header .btns {
     display: inline-block;
     padding: 0 10px;
+    height: 45px;
     line-height: 45px;
 }
 .header .btns a {

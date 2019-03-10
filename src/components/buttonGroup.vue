@@ -15,8 +15,12 @@
                         <a ondragstart="return false" href="#">
                             <i class="iconfont icon-jia1"></i>新建歌单
                         </a>
-                        <a ondragstart="return false" href="#">我喜欢</a>
-                        <a ondragstart="return false" href="#">默认收藏</a>
+                        <a ondragstart="return false" href="#" v-for="(item, index) in $store.state.songList" :key="index.a" @click='addLikeMusic(item.txt)'>
+                            {{item.txt}}
+                        </a>
+                        <a ondragstart="return false" href="#" v-for="(item, index) in $store.state.myLikeMusic" :key="index.a"  @click='addLikeMusic(item.txt)'>
+                            {{item.txt}}
+                        </a>
                     </div>
                 </a>
                 <a ondragstart="return false" href="#">
@@ -28,7 +32,7 @@
                 <a ondragstart="return false" href="#">
                     <i class="iconfont icon-ttpodicon"></i>歌手
                     <div>
-                        <a ondragstart="return false" href="#">张采洁</a>
+                        <a ondragstart="return false" href="#">{{currentSongInfo.author_name}}</a>
                     </div>
                 </a>
                 <a ondragstart="return false" href="#">
@@ -182,7 +186,7 @@ export default {
 
             }
 
-            store.commit('addLike', {
+            store.commit('toggleLike', {
                 item,
                 musicList: '我喜欢'
             })
@@ -195,6 +199,21 @@ export default {
                 })
             },200)
 
+        },
+        addLikeMusic(txt){
+            store.commit('addLike',{
+                item: this.currentSongInfo,
+                musicList: txt
+            })
+            setTimeout(() => {
+                this.$router.push({
+                    path: '/kong',
+                    query: this.$router.query,
+                    replace: true
+                })
+            },200)
+
+            
         },
         jumpVolume(e){
             let dom = document.getElementsByClassName('bg')[1]
@@ -292,10 +311,18 @@ export default {
     right: -55px;
     width: 135px;
     transition: 0.6s;
-    background-color: #fff;
     transform-origin: bottom;
-    border-radius: 4px;
     box-shadow: 0 0 10px #ccc;
+    border-radius: 4px;
+}
+
+.btns a.menu .moreMenu > a:first-child{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.btns a.menu .moreMenu > a:last-child{
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 .btns a.menu .moreMenu:before {
     content: "";
@@ -311,6 +338,7 @@ export default {
 }
 .btns a.menu .moreMenu a {
     color: #333;
+    background-color: #fff;
 }
 .btns a.menu .moreMenu.hide {
     transform: scale(0);
@@ -360,6 +388,10 @@ export default {
     border-top-right-radius: 4px;
 }
 
+.btns a.menu .moreMenu a div a:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
 .btns a.word i {
     font-size: 25px;
 }
@@ -462,7 +494,7 @@ export default {
     position: absolute;
     bottom: 0px;
     height: 100px;
-    width: 3px;
+    width: 4px;
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 2px;
     cursor: pointer;
@@ -470,7 +502,7 @@ export default {
 .btns a.voice .pro {
     position: absolute;
     bottom: 0px;
-    width: 3px;
+    width: 4px;
     border-radius: 2px;
     z-index: 1;
     background-color: #5691eb;

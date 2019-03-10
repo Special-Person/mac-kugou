@@ -107,10 +107,16 @@ let mutations = {
         let item = state.playerList[state.currentPlayerIndex]
         Vue.prototype.axios.get('player/yy/index.php?r=play/getdata&hash=' + item.hash)
             .then(res => {
-                // 歌曲src 赋值成功直接会播放
-                music.src = res.data.data.play_url
-                // 更新歌曲信息
-                state.currentSongInfo = res.data.data
+                if(res.data.data.play_url === ''){
+                    confirm('应版权方要求，该音乐需付费试听，您可通过手机端酷狗音乐完成购买')
+                }else{
+
+                    // 歌曲src 赋值成功直接会播放
+                    music.src = res.data.data.play_url
+                    // 更新歌曲信息
+                    state.currentSongInfo = res.data.data
+
+                }
 
             })
         
@@ -274,7 +280,7 @@ let mutations = {
         }
     },
     // 添加/删除 当前的歌曲
-    addLike(state, obj) {
+    toggleLike(state, obj) {
         let list = {};
         let flag = true;
         let item = obj.item
@@ -292,6 +298,7 @@ let mutations = {
                 if (musicList === '我喜欢' && state.currentSongInfo.hash === item.hash) {
                     state.islike = false
                 }
+                // 更新localstorage
                 localStorage.setItem(musicList, JSON.stringify(localList))
                 flag = false
                 break;
@@ -321,7 +328,39 @@ let mutations = {
 
         
     },
+    addLike(state, obj) {
+        let list = {};
+        let flag = true;
+        let item = obj.item
+        let musicList = obj.musicList
+        let localList = JSON.parse(localStorage.getItem(musicList)) || []
 
+        for(let i = 0; i < localList.length; i++){
+            if(localList[i].hash !== item.hash){
+                flag = true
+            }else{
+                return;
+            }
+        }
+        
+        // 如果flag 为真 就是没找到
+        if(flag){
+            Vue.prototype.axios.get('player/yy/index.php?r=play/getdata&hash=' + item.hash)
+                .then(res => {
+                    // 歌曲信息
+                    list = res.data.data
+
+                    localList.unshift(list)
+                    localStorage.setItem(musicList, JSON.stringify(localList))
+                })
+            // 同步底部爱心
+            if (musicList === '我喜欢' && state.currentSongInfo.hash === item.hash) {
+                state.islike = true
+            }
+            flag = false
+        }
+
+    },
 
 
 

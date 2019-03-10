@@ -75,14 +75,8 @@ export default {
 
                 this.loading = true
             })
-            // 歌手信息
-            // /musicinfo/singer/info/' + this.$route.query.id + '&json=true
-
-            // this.axios.get('/musicinfo/singer/info/' + this.$route.query.id + '?json=true')
-            // .then(res => {
-            //     console.log(res)
-
-            // })
+            // 歌手信息 只在手机模拟端获取的到接口，故放弃做歌手信息
+            // this.axios.get('/musicinfo/singer/info/' + this.$route.query.id + '?json=true').then(res => {})
 
 
     },

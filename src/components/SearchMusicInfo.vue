@@ -116,7 +116,7 @@ export default {
 <style scoped>
 .scroll {
     overflow: scroll;
-    height: 585px;
+    height: 590px;
 }
 .search-music-info {
     padding: 0 40px;

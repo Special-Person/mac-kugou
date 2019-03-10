@@ -64,6 +64,8 @@ export default {
 
 
             this.$store.commit('searchMusic')
+            
+            this.$store.commit('pushHistoryMusic')
 
 
         

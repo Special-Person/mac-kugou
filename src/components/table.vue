@@ -7,28 +7,28 @@
                 <td>专辑</td>
                 <td>时长</td>
             </tr>
-            <tr class="music-info" @mousedown="ShowMenu($event, item, index)" v-for="(item, index) in musicList" :class="{active: index === musicListActive}" @click="musicListActive = index" @dblclick="playerMusic($event, index)" :key="index">
+            <tr class="music-info" @mousedown="ShowMenu($event, item, index)" v-for="(item, index) in musicList" :class="{active: index === musicListActive}" @click="musicListActive = index" @dblclick="playerMusic($event, index, item)" :key="index">
                 <td>
                     <div class="info">
                         <p :class="{h: !item.topic}">
-                            <span>{{keyWord(item.songname || item.song_name || item.audio_name)}}</span>
+                            <span v-html="keyWord(item.songname || item.song_name || item.audio_name)"></span>
                             <span v-if="item.mvhash" class="label">MV</span>
                         </p>
                         <p v-if="item.topic">{{item.topic}}</p>
                     </div>
                     <div class="btns" :class="{topic : item.topic}">
-                        <a ondragstart="return false" href="#" @click="playerMusic($event, index)" @dblclick.stop="" class="player">
+                        <a ondragstart="return false" href="#" @click="playerMusic($event, index, item)" @dblclick.stop="" class="player">
                             <i class="iconfont icon-bofang2"></i>
                         </a>
                         <!-- 我喜欢 -->
                         <like @dblclick.stop="" :isLike="comLike(item)" :item="item" />
                         <a ondragstart="return false" href="#" class="download" @dblclick.stop="">
-                            <i class="iconfont icon-xiazai1"></i>
+                            <i class="iconfont icon-xiazai" :class="item.price || item.play_url === '' ? 'shoufei' : ''"></i>
                         </a>
                     </div>
                 </td>
-                <td><span>{{keyWord(item.singername || item.author_name)}}</span></td>
-                <td><span>{{keyWord(item.album_name)}}</span></td>
+                <td><span v-html="keyWord(item.singername || item.author_name)"></span></td>
+                <td><span>{{item.album_name}}</span></td>
                 <td>{{comTime(item.duration || item.timelength / 1000)}}</td>
             </tr>
             <tr v-show="toBottom" class="musicFooter">没有更多歌曲</tr>
@@ -111,11 +111,27 @@ export default {
                 item: this.musicList[this.musicIndex],
                 musicList: txt
             })
+
+            setTimeout(() => {
+                this.$router.push({
+                    path: '/kong',
+                    query: this.$router.query,
+                    replace: true
+                })
+            },200)
+
+
             
         },
         keyWord(info) {
-            // 关键字高亮
+            if(this.$route.path === '/SearchMusicInfo'){
+                let key = this.$route.query.musicname
+                let reg = new RegExp(key, 'gi')
+                let str = new String(info).replace(reg, '<span>'+ key +'</span>')
+                return str
+            }
             return info
+            // 关键字高
         },
         ShowMenu(e, item, index) {
             // 判断是否是右键按下
@@ -128,7 +144,7 @@ export default {
                 this.musicIndex = index
                 menu.style.left = e.clientX - this.getElementTop(limit, 'Left') + 'px'
                 menu.style.top = e.clientY - this.getElementTop(limit, 'Top') + 'px'
-                // console.log('关键词高亮还没弄')
+
             }
         },
 
@@ -144,8 +160,8 @@ export default {
             return elemTop;
         },
         // 播放并加入历史记录
-        playerMusic(e, index) {
-
+        playerMusic(e, index, musicItem) {
+            
 
             store.state.currentPlayerIndex = index
             store.state.playerList = this.musicList;
@@ -185,6 +201,7 @@ export default {
 
             store.state.currentPlayerIndex = this.musicIndex
             store.commit('searchMusic')
+            store.commit('pushHistoryMusic')
         },
         playLater(index) {
             store.commit('playLater', this.musicList[this.musicIndex])
@@ -193,7 +210,7 @@ export default {
             if(this.$route.path !== "/mylike"){
                 return;
             }
-            store.commit('addLike',{
+            store.commit('toggleLike',{
                 item: this.musicList[this.musicIndex],
                 musicList: this.$route.query.list
             })
@@ -257,6 +274,9 @@ table tr td p.h {
     height: 41px;
     line-height: 41px;
 }
+table tr td p.h span >>> span{
+    color: #5aa0f8;
+}
 table td p span.label {
     border: 1px solid #5aa0f8;
     color: #5aa0f8;
@@ -297,6 +317,25 @@ table td p span.label {
 .music-info .btns.topic {
     height: 60px;
     line-height: 60px;
+}
+.music-info .btns i{
+    position: relative;
+}
+.music-info .btns i.shoufei::after{
+    content: '¥';
+    background-color: #f3b342;
+    border-radius: 50%;
+    color: #fff;
+    position: absolute;
+    right: -3px;
+    bottom: -3px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+    text-align: center;
+    font-size: 12px;
+    transform: scale(.7);
 }
 .music-info .btns a {
     color: #777;
