@@ -13,4 +13,4 @@ npm run dev 运行就好了
 
 单纯的当做简历的第一个项目
 ```
-![降龙十八掌](https://www.baidu.com/img/dong_6280dcc003bfa16f5e54c9904a4dd8ca.gif)
+
