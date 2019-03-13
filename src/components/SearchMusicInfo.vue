@@ -26,6 +26,7 @@ import store from '../store/store.js'
 import myTable from '@/components/table'
 import myGedan from '@/components/gedan'
 export default {
+  name: 'searchMusicInfo',
     components: {
         myTable,
         myGedan
@@ -40,17 +41,26 @@ export default {
             toBottom: false,
             musicList: [],
             gedan: this.$route.query.musicname,
-            issinger: null
+            issinger: null,
+            lastPage: null
         }
     },
-    created() {
-        this.requestMusic()
-        this.issinger = this.$route.query.issinger || ''
+    activated(){
+        setTimeout(() => {
+          document.querySelector('.scroll').scrollTop = store.state.searchScroll
+        },200)
     },
     mounted() {
         let self = this;
+        self.requestMusic()
+        self.issinger = self.$route.query.issinger || ''
+
+        setTimeout(() => {
+          document.querySelector('.scroll').scrollTop = store.state.searchScroll
+        },200)
         document.querySelector('.scroll').onscroll = function (e) {
             clearTimeout(self.timer)
+            store.state.searchScroll = this.scrollTop
             if (this.offsetHeight + this.scrollTop + self.num > this.scrollHeight) {
 
                 if (self.toBottom === false) {
@@ -78,9 +88,12 @@ export default {
         requestMusic() {
             // 根据关键词搜索 音乐 赋值到table里
             this.axios.get('/search/api/v3/search/song?format=json&keyword=' + this.$route.query.musicname + '&page=' + this.page)
+
                 .then(res => {
+                  this.lastPage = this.page
                     if (res.data.data.info.length > 0) {
                         this.musicList = this.musicList.concat(res.data.data.info)
+
                     } else {
                         this.toBottom = true
                     }
@@ -99,15 +112,15 @@ export default {
         },
     },
     watch: {
-
         musicname(newVal) {
             this.gedan = newVal
-            this.axios.get('/search/api/v3/search/song?format=json&keyword=' + this.$route.query.musicname + '&page=' + this.musicPage)
-                .then(res => {
-
-                    this.musicList = res.data.data.info
-                    // store.data = res.data.data.info
-                })
+            if(newVal == undefined){
+              return
+            }
+            if(this.lastPage === this.page){
+              return
+            }
+            this.requestMusic()
         },
     }
 }

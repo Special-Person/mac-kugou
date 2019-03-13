@@ -51,79 +51,87 @@ export default {
     components: {
         singerItem
     },
-    data(){
-        return{
+    data() {
+        return {
             active: 0,
             list: [],
             list1: [],
             list2: [],
             list3: [],
-            singerInfo: []
+            singerInfo: [],
+            currentPage: 1,
+            pageSize: 1 , //每页显示20条数据
+            count: 1
+
         }
     },
-    created(){
+    created() {
         this.axios.get('/musicinfo/singer/class&json=true')
-        .then(res => {
-            this.list = res.data.list
-            for(let i = 0; i< res.data.list.length; i++) {
-                if(i > 0 && i < 4){
-                    this.list1.push(res.data.list[i])
-                }
-                if(i >= 4 && i < 7){
-                    this.list2.push(res.data.list[i])
-                }
-                if(i >= 7){
-                    this.list3.push(res.data.list[i])
-                }
-            }
-
-        }).then(() => {
-
-            this.axios.get('/musicinfo/singer/list/' + this.list[0].classid + '?json=true&')
             .then(res => {
-                this.singerInfo = res.data.singers.list.info
-            })
+                this.list = res.data.list
+                for (let i = 0; i < res.data.list.length; i++) {
+                    if (i > 0 && i < 4) {
+                        this.list1.push(res.data.list[i])
+                    }
+                    if (i >= 4 && i < 7) {
+                        this.list2.push(res.data.list[i])
+                    }
+                    if (i >= 7) {
+                        this.list3.push(res.data.list[i])
+                    }
+                }
 
-        })
+            }).then(() => {
+
+                this.axios.get('/musicinfo/singer/list/' + this.list[0].classid + '?json=true&')
+                    .then(res => {
+                        this.count = res.data.singers.total
+                        this.pageSize = res.data.singers.pagesize
+                        this.currentPage = res.data.singers.page
+
+                        this.singerInfo = res.data.singers.list.info
+                    })
+
+            })
     },
     watch: {
-        active(newVal){
+        active(newVal) {
             this.axios.get('/musicinfo/singer/list/' + this.list[newVal].classid + '?json=true&')
-            .then(res => {
-                this.singerInfo = res.data.singers.list.info
-            })
+                .then(res => {
+                    this.singerInfo = res.data.singers.list.info
+                })
         }
     }
 }
 </script>
 
 <style scoped>
-.singer{
+.singer {
     padding: 18px 40px 0;
     height: 590px;
     overflow: hidden;
     box-sizing: border-box;
     overflow-y: scroll;
 }
-.list{
+.list {
     width: 150px;
     text-align: center;
 }
-.list:not(:first-child){
+.list:not(:first-child) {
     border-top: 1px solid #e4e4e4;
 }
-.list:not(:first-child) p{
+.list:not(:first-child) p {
     margin: 10px 0;
 }
-.list p{
-   margin-bottom: 10px; 
+.list p {
+    margin-bottom: 10px;
 }
-.l{
+.l {
     float: left;
     width: 160px;
     height: 100%;
 }
-.l li{
+.l li {
     width: 100%;
     height: 18px;
     margin-bottom: 3px;
@@ -131,21 +139,23 @@ export default {
     padding: 5px 0 5px 5px;
     cursor: pointer;
 }
-.l li:hover{
+.l li:hover {
     color: #5691eb;
     background-color: #f5f5f5;
 }
-.l li.active{
+.l li.active {
     color: #fff;
     background-color: #5691eb;
 }
-.content{
+.content {
     float: left;
     width: 557px;
     border-left: 1px solid #e4e4e4;
     padding-left: 10px;
 }
-.header li{
+.header li {
     display: inline-block;
+    height: 167px;
+    overflow: hidden;
 }
 </style>

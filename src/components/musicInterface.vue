@@ -155,9 +155,9 @@ export default {
         },
         comTime(index) {
             let lyricTime = this.$store.state.lyricTime
-            
+
             if (index + 1 >= lyricTime.length) {
-                
+
                 return 5
             }
 
@@ -182,13 +182,13 @@ export default {
         },
         addLike(){
             let store = this.$store;
-            
+
             let item = {
                 ...store.state.currentSongInfo
             }
             // 如果在hash表里找不到则添加进去，找到了则取消
             store.commit('toggleLike', {item, musicList: '我喜欢'})
-            
+
         }
     },
     watch: {
@@ -199,7 +199,7 @@ export default {
             span.style['max-width'] = 24 * span.innerText.length + 'px'
             span.style.animationDuration = this.comTime(newVal) + 's'
             if (this.$store.state.slidableLyric == false) {
-                
+
                 lyric.style.top = 170 - (30 * newVal) + "px";
 
             }
@@ -245,7 +245,7 @@ export default {
     box-sizing: border-box;
 }
 
-.l-music-info .img {    
+.l-music-info .img {
     height: 270px;
     width: 270px;
     background-size: cover;
@@ -310,7 +310,7 @@ export default {
 .t .time ul {
     position: absolute;
     left: 0;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 .time li {
     width: 325px;

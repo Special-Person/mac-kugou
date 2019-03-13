@@ -14,15 +14,17 @@ let state = {
     currentSongInfo: {}, // 当前播放歌曲的信息
     currentPlayIndex: null, // 当前播放的歌曲处于播放列表的下标
     hotKey: true, // 是否开启快捷键 (具体快捷键在设置界面查看)
-    
+
     // 音乐歌词界面一些变量
     musicInterface: false, // 是否弹出音乐歌词界面
     lyricTimes: [], // 歌词时间存放的数组
     lyricIndex: 0, // 当前播放到的歌词下标
     slidableLyric: false, // 是否处于滑动歌词操作
 
-    // table 
+    // table
     page: 0, // 当前搜索的歌曲的页数
+    searchScroll: 0,
+    mylikeScroll: 0,
 
     // 我喜欢界面
     songList: [
@@ -54,7 +56,7 @@ let mutations = {
 
             // 音乐界面歌词进度
             this.commit('timeCompare')
-            
+
 
         }
         // 开始播放
@@ -66,7 +68,7 @@ let mutations = {
     ended(state) {
         // 歌词界面的歌词切换到第一行
         state.lyricIndex = 0
-        // playBackActive == 2 是随机播放 
+        // playBackActive == 2 是随机播放
         if (state.playBackActive == 2) {
             // 最大随机范围 不超过歌曲最后一首的下标
             var max = state.playerList.length - 1
@@ -119,7 +121,7 @@ let mutations = {
                 }
 
             })
-        
+
     },
 
     timeCompare(state) {
@@ -142,11 +144,11 @@ let mutations = {
         state.historyPlayerList.forEach((item, index) => {
             // 如果已经有了记录 就删除当前位置在最前面添加进去
             if (item.hash === state.playerList[state.currentPlayerIndex].hash) {
-                
+
                 arr = state.historyPlayerList[index]
                 state.historyPlayerList.splice(index, 1)
                 state.historyPlayerList.unshift(arr)
-                
+
                 flag = false
             }
         })
@@ -326,7 +328,7 @@ let mutations = {
         }
 
 
-        
+
     },
     addLike(state, obj) {
         let list = {};
@@ -342,7 +344,7 @@ let mutations = {
                 return;
             }
         }
-        
+
         // 如果flag 为真 就是没找到
         if(flag){
             Vue.prototype.axios.get('player/yy/index.php?r=play/getdata&hash=' + item.hash)

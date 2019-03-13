@@ -27,7 +27,7 @@
                         </a>
                     </div>
                 </td>
-                <td><span v-html="keyWord(item.singername || item.author_name)"></span></td>
+                <td><span v-html="keyWord(item.singername || item.author_name || '')"></span></td>
                 <td><span>{{item.album_name}}</span></td>
                 <td>{{comTime(item.duration || item.timelength / 1000)}}</td>
             </tr>
@@ -121,7 +121,7 @@ export default {
             },200)
 
 
-            
+
         },
         keyWord(info) {
             if(this.$route.path === '/SearchMusicInfo'){
@@ -161,7 +161,7 @@ export default {
         },
         // 播放并加入历史记录
         playerMusic(e, index, musicItem) {
-            
+
 
             store.state.currentPlayerIndex = index
             store.state.playerList = this.musicList;
@@ -302,6 +302,14 @@ table td p span.label {
 }
 .music-info .info {
     float: left;
+}
+.musicFooter {
+    display: inline-block;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    width: 700px;
+    color: #999;
 }
 
 .music-info:hover .btns {

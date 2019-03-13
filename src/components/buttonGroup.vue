@@ -18,7 +18,7 @@
                         <a ondragstart="return false" href="#" v-for="(item, index) in $store.state.songList" :key="index.a" @click='addLikeMusic(item.txt)'>
                             {{item.txt}}
                         </a>
-                        <a ondragstart="return false" href="#" v-for="(item, index) in $store.state.myLikeMusic" :key="index.a"  @click='addLikeMusic(item.txt)'>
+                        <a ondragstart="return false" href="#" v-for="(item, index) in $store.state.myLikeMusic" :key="index.a" @click='addLikeMusic(item.txt)'>
                             {{item.txt}}
                         </a>
                     </div>
@@ -101,7 +101,7 @@ export default {
             type: Boolean
         }
     },
-    data(){
+    data() {
         return {
             moreMenu: false, // 是否弹出更多菜单
             sound: "丽音", // 当前音效
@@ -127,54 +127,57 @@ export default {
         }
     },
     computed: {
-        islike(){
+        islike() {
             return store.state.islike
         },
-        playerList(){
+        playerList() {
             return store.state.playerList
         },
-        currentSongInfo(){
+        currentSongInfo() {
             return store.state.currentSongInfo
         }
-        
+
     },
     mounted() {
-            var voice = this.$refs.voice; // dot
-            var volume = this.$refs.volume; // pro
-            // 音量划动事件
-            var voiceControl = document.getElementsByClassName("voice-control")[0];
-            voice.addEventListener("mousedown", e => {
-                var vcTop = this.getElementTop(voiceControl, "Top");
-                var num = vcTop - e.clientY + 105;
-                document.onmousemove = e => {
-                    num = vcTop - e.clientY + 105;
+        var voice = this.$refs.voice; // dot
+        var volume = this.$refs.volume; // pro
+        // 音量划动事件
+        var voiceControl = document.getElementsByClassName("voice-control")[0];
+        voice.addEventListener("mousedown", e => {
+            var vcTop = this.getElementTop(voiceControl, "Top");
+            var num = vcTop - e.clientY + 105;
+            document.onmousemove = e => {
+                num = vcTop - e.clientY + 105;
 
-                    if (num > 99) {
-                        num = 100;
-                    }
-                    if (num < 1) {
-                        num = 0;
-                    }
-                    voice.style.bottom = num - 5 + "px";
-                    volume.style.height = num + "px";
+                if (num > 99) {
+                    num = 100;
+                }
+                if (num < 1) {
+                    num = 0;
+                }
+                voice.style.bottom = num - 5 + "px";
+                volume.style.height = num + "px";
 
-                    music.volume = num / 100;
-                    if (music.volume) {
-                        this.currentMusicVolume = true;
-                    } else {
-                        this.currentMusicVolume = false;
-                    }
-                    this.currentMusicVolumeNum = num / 100;
-                };
+                music.volume = num / 100;
+                if (music.volume) {
+                    this.currentMusicVolume = true;
+                } else {
+                    this.currentMusicVolume = false;
+                }
+                this.currentMusicVolumeNum = num / 100;
+            };
 
-                document.onmouseup = e => {
-                    document.onmousemove = null;
-                    document.onmouseup = null;
-                };
-            });
+            document.onmouseup = e => {
+                document.onmousemove = null;
+                document.onmouseup = null;
+            };
+        });
     },
     methods: {
-        reverseLike(){
+        reverseLike() {
+            if (JSON.stringify(this.currentSongInfo) == "{}") {
+                return
+            }
             let item = {
                 ...this.currentSongInfo,
                 song_name: this.currentSongInfo.song_name,
@@ -197,11 +200,11 @@ export default {
                     query: this.$router.query,
                     replace: true
                 })
-            },200)
+            }, 200)
 
         },
-        addLikeMusic(txt){
-            store.commit('addLike',{
+        addLikeMusic(txt) {
+            store.commit('addLike', {
                 item: this.currentSongInfo,
                 musicList: txt
             })
@@ -211,17 +214,17 @@ export default {
                     query: this.$router.query,
                     replace: true
                 })
-            },200)
+            }, 200)
 
-            
+
         },
-        jumpVolume(e){
+        jumpVolume(e) {
             let dom = document.getElementsByClassName('bg')[1]
             var voice = this.$refs.voice; // dot
             var volume = this.$refs.volume; // pro
-            music.volume = (100 - (e.clientY - this.getElementTop(dom, "Top")) ) / 100
+            music.volume = (100 - (e.clientY - this.getElementTop(dom, "Top"))) / 100
             voice.style.bottom = 95 - (e.clientY - this.getElementTop(dom, "Top")) + 'px'
-            volume.style.height = 100 - (e.clientY - this.getElementTop(dom, "Top"))  + 'px'
+            volume.style.height = 100 - (e.clientY - this.getElementTop(dom, "Top")) + 'px'
         },
         getElementTop(elem, direction) {
             var elemTop = elem["offset" + direction]; //获得elem元素距相对定位的父元素的top
@@ -316,11 +319,11 @@ export default {
     border-radius: 4px;
 }
 
-.btns a.menu .moreMenu > a:first-child{
+.btns a.menu .moreMenu > a:first-child {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
-.btns a.menu .moreMenu > a:last-child{
+.btns a.menu .moreMenu > a:last-child {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
 }
@@ -524,6 +527,7 @@ export default {
     position: relative;
     font-size: 14px;
     display: inline-block;
+    white-space: nowrap;
     width: 50px;
     height: 20px;
     line-height: 20px;

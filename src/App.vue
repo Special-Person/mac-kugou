@@ -5,7 +5,9 @@
             <div class="content">
                 <my-left></my-left>
                 <div class="my-right">
+                  <keep-alive include="searchMusicInfo">
                     <router-view></router-view>
+                  </keep-alive>
                 </div>
             </div>
             <my-footer></my-footer>
@@ -48,7 +50,7 @@ export default {
         }else{
             document.onkeydown = null
         }
-        
+
     },
     // 读取store数据
     computed: {

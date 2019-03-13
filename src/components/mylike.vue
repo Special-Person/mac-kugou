@@ -22,7 +22,7 @@
                     <a ondragstart="return false" href="#"><i class="iconfont icon-fenxiang"></i>分享</a>
                 </div>
             </div>
-            
+
         </div>
         <div style="padding: 0 40px;"  v-show="likePlayerList.length !== 0">
             <my-table :musicList="likePlayerList" :bgColor="'#fff'"></my-table>
@@ -53,9 +53,20 @@ export default {
             musicIndex: null
         }
     },
+    mounted(){
+        let self = this;
+
+        setTimeout(() => {
+          document.querySelector('.mylike').scrollTop = self.$store.state.mylikeScroll
+        },200)
+
+        document.querySelector('.mylike').onscroll = function () {
+            self.$store.state.mylikeScroll = this.scrollTop
+        }
+
+    },
     methods: {
         playMusic(){
-
 
             this.$store.state.playerList = this.likePlayerList
 
@@ -64,11 +75,11 @@ export default {
 
 
             this.$store.commit('searchMusic')
-            
+
             this.$store.commit('pushHistoryMusic')
 
 
-        
+
         }
     }
 }
@@ -76,7 +87,8 @@ export default {
 
 <style scoped>
 .mylike{
-    width: 100%;
+    overflow: scroll;
+    height: 590px;
 }
 
 .header{
@@ -88,7 +100,7 @@ export default {
 .header > div{
     float: left;
     height: 160px;
-    
+
 }
 .header .l{
     width: 160px;
@@ -96,7 +108,7 @@ export default {
 }
 
 .header .l img{
-   width: 100% 
+   width: 100%
 }
 
 .header .r{
