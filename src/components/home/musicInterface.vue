@@ -4,7 +4,8 @@
             <div class="interface">
                 <div class="l-music-info">
                     <div>
-                        <div class="img" :style="'background-image: url(' + $store.state.currentSongInfo.img + ')'"></div>
+                        <div class="img" :style="'background-image: url(' + ($store.state.currentSongInfo.img || require('../../assets/logo.png')) + ')'"></div>
+
                         <div class="btns">
                             <a ondragstart="return false" href="#" @click="addLike">
                                 <i class="iconfont" :class="islike ? 'icon-xinh' : 'icon-xin'"></i>
@@ -25,8 +26,8 @@
                     <div class="t">
                         <p>{{$store.state.currentSongInfo.song_name || ''}}</p>
                         <p>
-                            <span>歌手: {{$store.state.currentSongInfo.author_name || ''}}</span>
-                            <span>专辑:{{$store.state.currentSongInfo.album_name || ''}}</span>
+                            <span>歌手：{{$store.state.currentSongInfo.author_name || ''}}</span>
+                            <span>专辑：{{$store.state.currentSongInfo.album_name || ''}}</span>
                         </p>
                         <div class="time">
                             <ul id="lyric" style="top: 170px">
@@ -346,7 +347,7 @@ export default {
 .time li.active span:first-child {
     animation-name: loop;
     animation-fill-mode: forwards;
-    animation-timing-function: cubic-bezier(0.3, 0.2, 0.88,  1);
+    animation-timing-function:cubic-bezier(0.5, 0.35, 0.5, .3)
 }
 @keyframes loop {
     0% {

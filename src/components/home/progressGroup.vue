@@ -1,7 +1,7 @@
 <template>
     <div class="music-control">
         <a ondragstart="return false" href="#" @click="showMusicInterface" class="singer">
-            <img :src="currentSongInfo.img || require('../assets/logo.png')" width="40" height="40" alt>
+            <img :src="currentSongInfo.img || require('../../assets/logo.png')" width="40" height="40" alt>
             <i class="iconfont hide" :class="musicInterface ? 'icon-xiatui' : 'icon-shangtui'"></i>
         </a>
         <div class="progress-control">

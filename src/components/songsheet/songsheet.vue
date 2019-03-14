@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import songsheetItem from '@/components/songsheetItem'
+import songsheetItem from './songsheetItem'
 export default {
     components: {
         songsheetItem
@@ -65,7 +65,7 @@ export default {
             document.querySelector('.songsheet').onscroll = function (e) {
                 clearTimeout(self.timer)
                 if (this.offsetHeight + this.scrollTop + self.num > this.scrollHeight) {
-                    
+
                     self.timer = setTimeout(() => {
                         self.page++
                         self.requestMusic()
@@ -85,7 +85,7 @@ export default {
                 }else{
                     document.querySelector('.songsheet').onscroll = null
                 }
-                
+
             })
         }
     }

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import myTable from '@/components/table'
+import myTable from '@/components/cmp/table'
 export default {
     components: {
         myTable

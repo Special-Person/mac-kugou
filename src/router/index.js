@@ -13,32 +13,32 @@ export default new Router({
     {
       path: '/Setting',
       name: 'Setting',
-      component: resolve => require( ['@/components/Setting'], resolve )
+      component: resolve => require( ['@/components/setting/Setting'], resolve )
     },
     {
       path: '/SearchMusicInfo',
       name: 'SearchMusicInfo',
-      component: resolve => require( ['@/components/SearchMusicInfo'], resolve )
+      component: resolve => require( ['@/components/search/SearchMusicInfo'], resolve )
     },
     {
       path: '/mylike',
       name: 'mylike',
-      component: resolve => require( ['@/components/mylike'], resolve )
+      component: resolve => require( ['@/components/mylike/mylike'], resolve )
     },
     {
       path: '/songsheet',
       name: 'songsheet',
-      component: resolve => require( ['@/components/songsheet'], resolve )
+      component: resolve => require( ['@/components/songsheet/songsheet'], resolve )
     },
     {
       path: '/allsongsheet',
       name: 'allsongsheet',
-      component: resolve => require( ['@/components/allsongsheet'], resolve )
+      component: resolve => require( ['@/components/songsheet/allsongsheet'], resolve )
     },
     {
       path: '/rankingList',
       name: 'rankingList',
-      component: resolve => require( ['@/components/rankingList'], resolve )
+      component: resolve => require( ['@/components/rankinglist/rankingList'], resolve )
     },
     {
       path: '/radiostation',
@@ -48,12 +48,12 @@ export default new Router({
     {
       path: '/singer',
       name: 'singer',
-      component: resolve => require( ['@/components/singer'], resolve )
+      component: resolve => require( ['@/components/singer/singer'], resolve )
     },
     {
       path: '/singermusicsheet',
       name: 'singermusicsheet',
-      component: resolve => require( ['@/components/singermusicsheet'], resolve )
+      component: resolve => require( ['@/components/singer/singermusicsheet'], resolve )
     },
     {
       path: '/download',
@@ -68,7 +68,7 @@ export default new Router({
     {
       path: '/kong',
       name: 'kong',
-      component: resolve => require( ['@/components/kong'], resolve )
+      component: resolve => require( ['@/components/cmp/kong'], resolve )
     },
     {
       path: '*',

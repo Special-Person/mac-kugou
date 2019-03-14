@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import myTable from '@/components/table'
+import myTable from '@/components/cmp/table'
 export default {
     components: {
         myTable
@@ -116,7 +116,7 @@ export default {
 .header > div{
     float: left;
     height: 160px;
-    
+
 }
 .header .l{
     position: relative;
@@ -125,7 +125,7 @@ export default {
 }
 
 .header .l img{
-   width: 100% 
+   width: 100%
 }
 
 .header .r{

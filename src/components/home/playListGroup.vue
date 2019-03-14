@@ -18,7 +18,7 @@
 
                         <pinpu :class="isPlay ? 'bofang' : 'zanting'" />
                         <div class="song-img" v-show="$store.state.currentPlayerIndex == index">
-                            <img :src="currentSongInfo.img  || require('../assets/logo.png')" height="53" width="55" alt>
+                            <img :src="currentSongInfo.img  || require('../../assets/logo.png')" height="53" width="55" alt>
                         </div>
                         <div class="song-info-open" v-show="$store.state.currentPlayerIndex == index">
                             <p>{{item.song_name || item.songname || comSongName(item.filename, 1) }}</p>
@@ -79,9 +79,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import store from '../store/store.js'
-import like from '@/components/like'
-import pinpu from '@/components/pinpu'
+import store from '../../store/store.js'
+import like from '@/components/cmp/like'
+import pinpu from '@/components/cmp/pinpu'
 export default {
     components: {
         like,
@@ -94,7 +94,7 @@ export default {
     },
     computed: {
         ...mapState(['isPlay','currentSongInfo','musicInterface','playerList','historyPlayerList','currentPlayerIndex']),
-        
+
         comLike() {
             return (item) => {
 

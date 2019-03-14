@@ -2,7 +2,7 @@
     <div class="mylike">
         <div class="header">
             <div class="l">
-                <img :src="likePlayerList.length === 0 ? require('../assets/like.png') : likePlayerList[0].img" alt="">
+                <img :src="likePlayerList.length === 0 ? require('../../assets/like.png') : likePlayerList[0].img" alt="">
             </div>
             <div class="r">
                 <p>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import myTable from '@/components/table'
+import myTable from '@/components/cmp/table'
 export default {
     components: {
         myTable

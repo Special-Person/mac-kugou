@@ -4,7 +4,7 @@
         <play-group />
         <progress-group />
         <button-group :showMusicList="showMusicList" v-on:reverseMusicList="showMusicList = !showMusicList"/>
-        
+
         <play-list-group :showMusicList="showMusicList" />
         <div class="layer" v-show="showMusicList" @click="showMusicList = false"></div>
 
@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import store from '../store/store.js'
+import store from '../../store/store.js'
 
-import playGroup from '@/components/playGroup'
-import progressGroup from '@/components/progressGroup'
-import buttonGroup from '@/components/buttonGroup'
+import playGroup from '@/components/home/playGroup'
+import progressGroup from '@/components/home/progressGroup'
+import buttonGroup from '@/components/home/buttonGroup'
 
 
-import playListGroup from '@/components/playListGroup'
+import playListGroup from '@/components/home/playListGroup'
 export default {
     components: {
         playGroup,

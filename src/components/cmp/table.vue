@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import store from '../store/store.js'
-import like from '@/components/like'
+import store from '../../store/store.js'
+import like from '@/components/cmp/like'
 export default {
     components: {
         like

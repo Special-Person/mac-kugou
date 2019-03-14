@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import store from '../store/store.js'
-import myTable from '@/components/table'
-import myGedan from '@/components/gedan'
+import store from '../../store/store.js'
+import myTable from '@/components/cmp/table'
+import myGedan from '@/components/cmp/gedan'
 export default {
   name: 'searchMusicInfo',
     components: {

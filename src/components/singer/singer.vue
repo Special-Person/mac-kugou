@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import singerItem from '@/components/singerItem'
+import singerItem from '@/components/cmp/singerItem'
 export default {
     components: {
         singerItem

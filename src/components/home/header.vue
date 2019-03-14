@@ -30,13 +30,13 @@
         </div>
         <div class="userOperation">
             <a ondragstart="return false" href="#" class="user" @click="userInfo = !userInfo">
-                <img src="../assets/image/user-avatar.jpg" alt="">
+                <img src="../../assets/image/user-avatar.jpg" alt="">
                 <span>本</span>
                 <i class="iconfont icon-Group-"></i>
             </a>
             <div class="info" :class="userInfo ? 'show' : 'hide' ">
                 <div class="avatar text-center">
-                    <img src="../assets/image/user-avatar.jpg" alt="">
+                    <img src="../../assets/image/user-avatar.jpg" alt="">
                     <p>本 <a ondragstart="return false" href="#"><i class="iconfont icon-bianji"></i></a></p>
                     <span>VIP</span><span>音乐包</span>
                 </div>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import store from '../store/store.js'
+import store from '../../store/store.js'
 export default {
     data() {
         return {
@@ -143,7 +143,7 @@ export default {
             })
         },
         showMusicList(e) {
-            // 输入框内容不为空 ? 显示 : 隐藏 
+            // 输入框内容不为空 ? 显示 : 隐藏
             e.target.value ? this.searchInfo = true : this.searchInfo = false
         },
         toMusicInfo(list){
@@ -214,7 +214,7 @@ export default {
     line-height: 28px;
     margin-left: 10px;
     padding: 0 10px 0 30px;
-    background: url("../assets/image/sousuo.png") left center no-repeat;
+    background: url("../../assets/image/sousuo.png") left center no-repeat;
     background-position-x: 10px;
     background-color: #fff;
     color: #333;

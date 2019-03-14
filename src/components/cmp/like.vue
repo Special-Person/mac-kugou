@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import store from '../store/store.js'
+import store from '../../store/store.js'
 export default {
-    
+
     props: {
         item: {
             type: Object,
@@ -26,9 +26,9 @@ export default {
     watch: {
         isLike:{
             handler(){
-                
+
                 this.islike = this.isLike
-                
+
             },
             deep: true
         }
@@ -63,7 +63,7 @@ export default {
                 }
 
                 if(!flag){
-                    
+
                     this.islike = false;
                 }
 
@@ -76,9 +76,9 @@ export default {
                 }
             },200)
 
-            
-                
-                
+
+
+
         }
     }
 }

@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import myHeader from '@/components/header'
-import myLeft from '@/components/left'
-import myFooter from '@/components/footer'
-import musicInterface from '@/components/musicInterface'
+import myHeader from '@/components/home/header'
+import myLeft from '@/components/home/left'
+import myFooter from '@/components/home/footer'
+import musicInterface from '@/components/home/musicInterface'
 
 import store from './store/store.js'
 export default {
