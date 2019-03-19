@@ -119,9 +119,6 @@ export default {
             if(newVal == undefined){
               return
             }
-            if(this.lastPage === this.page){
-              return
-            }
             this.musicList = []
             this.requestMusic()
         },
