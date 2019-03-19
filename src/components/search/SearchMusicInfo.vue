@@ -46,6 +46,8 @@ export default {
         }
     },
     activated(){
+        this.musicList = []
+        this.requestMusic()
         setTimeout(() => {
           document.querySelector('.scroll').scrollTop = store.state.searchScroll
         },200)
@@ -120,6 +122,7 @@ export default {
             if(this.lastPage === this.page){
               return
             }
+            this.musicList = []
             this.requestMusic()
         },
     }
