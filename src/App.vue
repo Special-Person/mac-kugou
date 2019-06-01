@@ -34,6 +34,7 @@ export default {
         musicInterface
     },
     mounted(){
+        music.volume="0.5"
         //歌曲准备完毕直接播放
         music.oncanplaythrough = () => {
             store.commit('play')

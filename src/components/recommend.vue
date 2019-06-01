@@ -6,6 +6,8 @@
     <p>稍后播放 暂时不懂如何实现😓</p>
     <p>其他的功能大部分都ok了</p>
     <p>搜索内容的（专辑，mv，歌词）暂未获取到接口😓</p>
+    <p style="color:red;font-weight: bold;">(2019-06-01)播放歌曲的api失效了</p>
+    <p style="color:red;font-weight: bold;">没办法只能自己模拟一首歌的数据，只能播放这一首，等后面找到了新的接口，在更换上去</p>
   </div>
 </template>
 

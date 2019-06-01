@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       '/player': {
-        target: 'http://www.kugou.com/',
+        target: 'https://wwwapi.kugou.com/',
         changeOrigin: true,
         pathRewrite: {
           '^/player': ''

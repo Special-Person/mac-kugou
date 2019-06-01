@@ -105,22 +105,62 @@ let mutations = {
     },
     // 搜索歌曲信息并且赋值src令其播放
     searchMusic(state) {
+        // let item = state.playerList[state.currentPlayerIndex]
+        // console.log(item.hash)
+        // Vue.prototype.axios.get('player/yy/index.php?r=play/getdata&hash=' + item.hash)
+        //     .then(res => {
+        //         if(res.data.data.play_url === ''){
+        //             confirm('应版权方要求，该音乐需付费试听，您可通过手机端酷狗音乐完成购买')
+        //         }else{
 
-        let item = state.playerList[state.currentPlayerIndex]
-        Vue.prototype.axios.get('player/yy/index.php?r=play/getdata&hash=' + item.hash)
-            .then(res => {
-                if(res.data.data.play_url === ''){
-                    confirm('应版权方要求，该音乐需付费试听，您可通过手机端酷狗音乐完成购买')
-                }else{
+        //             // 歌曲src 赋值成功直接会播放
+        //             music.src = res.data.data.play_url
+        //             // 更新歌曲信息
+        //             state.currentSongInfo = res.data.data
 
-                    // 歌曲src 赋值成功直接会播放
-                    music.src = res.data.data.play_url
-                    // 更新歌曲信息
-                    state.currentSongInfo = res.data.data
+        //         }
 
+        //     })
+        let res = {
+            album_id: "15270740",
+            album_name: "绿色",
+            audio_id: "50285542",
+            audio_name: "陈雪凝 - 绿色",
+            author_id: "582744",
+            author_name: "陈雪凝",
+            authors: [
+                {
+                    author_id: "582744",
+                    author_name: "陈雪凝",
+                    avatar: "http://singerimg.kugou.com/uploadpic/softhead/400/20190412/20190412094604293.jpg",
+                    is_publish: "1",
+                    sizable_avatar: "http://singerimg.kugou.com/uploadpic/softhead/{size}/20190412/20190412094604293.jpg"
                 }
+            ],
+            bitrate: 128,
+            filesize: 4314636,
+            hash: "9198B18815EE8CE42AE368AE29276F78",
+            have_album: 1,
+            have_mv: 1,
+            img: "http://imge.kugou.com/stdmusic/20190216/20190216172238787963.jpg",
+            lyrics: `[00:00.00]陈雪凝 - 绿色[00:00.00]作词：陈雪凝[00:00.00]作曲：陈雪凝[00:00.00]编曲：Dadz[00:00.00]和声：李美灵芝[00:00.00]混音：一曲不空[00:00.00]发行：3SEVEN叁七[00:00.86]若不是你突然闯进我生活[00:04.84]我怎会把死守的寂寞放任了[00:26.25]说不痛苦那是假的[00:29.60]毕竟我的心也是肉做的[00:34.01]你离开时我心里的彩虹[00:37.80]就变成灰色[00:41.80]说不心酸那是假的[00:45.24]如果我真的没那么爱过[00:49.19]爱着一个没有灵魂的人[00:52.81]世界都是黑色[00:56.83]若不是你突然闯进我生活[01:00.89]我怎会把死守的寂寞放任了[01:04.74]爱我的话你都说[01:06.71]爱我的事你不做[01:08.69]我却把甜言蜜语[01:10.50]当做你爱我的躯壳[01:13.19]你的悲伤难过我不参破[01:16.64]我也会把曾经的且过当施舍[01:20.53]不去计较你太多[01:22.47]从此你在我心里[01:24.23]只剩绿色[01:44.95]说很快活那是假的[01:48.21]你的名字依然那么深刻[01:52.22]每个字都刺穿我的心脏[01:55.98]那鲜明的痛是红色[01:59.98]若不是你突然闯进 我生活[02:03.84]我怎会把死守的寂寞放任了[02:07.73]爱我的话你都说[02:09.66]爱我的事你不做[02:11.63]我却把甜言蜜语[02:13.37]当做你爱我的躯壳[02:16.12]你的悲伤难过我不参破[02:19.57]我也会把曾经的且过当施舍[02:23.47]不去计较你太多[02:25.40]从此你在我心里[02:27.16]只剩绿色[02:32.27]呼[03:34.41]若不是你突然闯进 我生活[03:38.22]我怎会把死守的寂寞放任了[03:42.16]爱我的话你都说[03:44.03]爱我的事你不做[03:46.01]我却把甜言蜜语[03:47.78]当做你爱我的躯壳[03:50.26]若不是你突然闯进 我生活[03:53.96]我怎会把死守的寂寞 放任了[03:57.86]爱我的话你都说[03:59.84]爱我的事你不做[04:01.82]我却把甜言蜜语[04:03.55]当做你爱我的躯壳[04:06.34]你的悲伤难过我不参破[04:09.78]我也会把曾经的且过当施舍[04:13.62]若不是你突然闯进我生活[04:17.60]我怎会把死守的寂寞放任了[04:21.55]爱我的话你都说[04:23.42]爱我的事你不做[04:25.44]我却把甜言蜜语[04:27.17]当做你爱我的躯壳`,
+            play_url: "https://webfs.yun.kugou.com/201906011645/8ecbc99f353a194a12db307059dadb1c/G119/M01/05/0D/F4cBAFxlweSAT9BlAEHWDL3dgeI800.mp3",
+            privilege: 8,
+            privilege2: "1000",
+            song_name: "绿色",
+            timelength: 269064,
+            video_id: "1143531"
+        }
+        if(res.play_url === ''){
+            confirm('应版权方要求，该音乐需付费试听，您可通过手机端酷狗音乐完成购买')
+        }else{
 
-            })
+            // 歌曲src 赋值成功直接会播放
+            music.src = res.play_url
+            // 更新歌曲信息
+            state.currentSongInfo = res
+
+        }
 
     },
 
